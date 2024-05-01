@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Card, CardContent, Typography, Button, Skeleton } from "@mui/material";
 import LightningBoltIcon from "@mui/icons-material/FlashOn";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
 import JobModal from "./JobModal";
 
 const JobCard = ({ job }) => {
@@ -14,6 +16,36 @@ const JobCard = ({ job }) => {
     setIsModalOpen(false);
   };
 
+  //Calculate Salary
+  const getSalary = (minSalary, maxSalary, currencyCode) => {
+    if (minSalary === null && maxSalary === null) {
+      return "NA";
+    } else if (minSalary === null) {
+      return `${maxSalary}k ${currencyCode}`;
+    } else if (maxSalary === null) {
+      return `${minSalary}k ${currencyCode}`;
+    } else if (minSalary === maxSalary) {
+      return `${minSalary}k ${currencyCode}`;
+    } else {
+      return `${minSalary}k to ${maxSalary}k ${currencyCode}`;
+    }
+  };
+
+  //calculate experience
+  const getExperience = (minExp, maxExp) => {
+    if (minExp === null && maxExp === null) {
+      return "0 years";
+    } else if (minExp === maxExp) {
+      return `${minExp} years`;
+    } else if (minExp === null) {
+      return `0 to ${maxExp} years`;
+    } else if (maxExp === null) {
+      return `${minExp} to 0 years`;
+    } else {
+      return `${minExp} to ${maxExp} years`;
+    }
+  };
+
   const jobDetailsPreview = `${job.jobDetailsFromCompany.substring(0, 300)}...`;
 
   return (
@@ -24,17 +56,50 @@ const JobCard = ({ job }) => {
             href={job.jdLink}
             target=""
             rel="https://weekday.works"
-            style={{ textDecoration: "none" }}
+            style={{
+              textDecoration: "none",
+              display: "flex",
+              alignItems: "center",
+            }}
           >
-            <Typography variant="h4" style={a}>
-              Weekday
-            </Typography>
-            <Typography variant="subtitle1" component="div" style={a}>
-              {job.jobRole}
-            </Typography>
+            <div>
+              <img
+                src={process.env.PUBLIC_URL + "/assets/images/logo.jpeg"}
+                alt="logo"
+                style={{ marginRight: "10px", height: "50px", width: "50px" }}
+              />
+            </div>
+            <div>
+              <Typography variant="h4" style={a}>
+                Weekday
+              </Typography>
+              <Typography variant="subtitle1" component="div" style={a}>
+                {job.jobRole}
+              </Typography>
+            </div>
           </a>
-          <Typography variant="subtitle2" style={{ color: "grey" }}>
+          <Typography
+            variant="subtitle2"
+            style={{ color: "grey", marginLeft: 60 }}
+          >
             {job.location}
+          </Typography>
+          <Typography
+            variant="subtitle2"
+            style={{
+              color: "grey",
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            Estimated Salary:{" "}
+            {getSalary(
+              job.minJdSalary,
+              job.maxJdSalary,
+              job.salaryCurrencyCode
+            )}
+            <CheckCircleIcon style={{ color: "green",marginLeft:5, fontSize: "17px" }} />
           </Typography>
           <Typography variant="h6" style={{ fontWeight: "bold" }}>
             About Company
@@ -48,7 +113,7 @@ const JobCard = ({ job }) => {
             View Job
           </Button>
           <Typography variant="subtitle2" style={{ color: "grey" }}>
-            Experience Required: {job.minExp || "NA"}
+            Preffered Experience: {getExperience(job.minExp, job.maxExp)}
           </Typography>
           <Button
             variant="contained"
@@ -73,8 +138,8 @@ export default JobCard;
 const windowWidth = window.innerWidth;
 
 const StyledCard = {
-  width: 250,
-  height: 520,
+  width: 300,
+  height: 500,
   borderRadius: 16,
   boxShadow: "1px 1px 1px 1px rgba(126, 125, 125, 0.285)",
   border: "0.5px solid rgb(198, 198, 198)",
@@ -90,6 +155,7 @@ const StyledButton = {
   marginTop: 8,
   textAlign: "center",
   width: "100%",
+  textTransform: "none",
 };
 
 const UnlockButton = {
@@ -97,9 +163,10 @@ const UnlockButton = {
   color: "white",
   padding: 8,
   borderRadius: 10,
-  marginTop: 8,
   textAlign: "center",
   width: "100%",
+  textTransform: "none",
+  marginTop: "5%",
 };
 
 const CenteredButton = {
@@ -109,6 +176,7 @@ const CenteredButton = {
   marginBottom: 8,
   backgroundColor: "transparent",
   border: "0px",
+  textTransform: "none",
 };
 
 const a = {
