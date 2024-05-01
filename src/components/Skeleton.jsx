@@ -23,7 +23,6 @@ export default Skeleton;
 const StyledCard = {
   width: 250,
   height: 550,
-  borderRadius: 16,
   boxShadow: "1px 1px 1px 1px rgba(126, 125, 125, 0.285)",
   border: "0.5px solid rgb(198, 198, 198)",
   padding: 16,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, CardContent, Typography, Button, Skeleton } from "@mui/material";
+import { Card, CardContent, Typography, Button } from "@mui/material";
 import LightningBoltIcon from "@mui/icons-material/FlashOn";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
@@ -135,8 +135,6 @@ const JobCard = ({ job }) => {
 export default JobCard;
 
 // Styles
-const windowWidth = window.innerWidth;
-
 const StyledCard = {
   width: 300,
   height: 500,
