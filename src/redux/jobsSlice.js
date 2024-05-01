@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-
 export const fetchJobs = createAsyncThunk('jobs/fetchJobs', async ({limit, offset}) => {
     const response = await fetch('https://api.weekday.technology/adhoc/getSampleJdJSON', {
         method: 'POST',
@@ -16,11 +15,14 @@ export const fetchJobs = createAsyncThunk('jobs/fetchJobs', async ({limit, offse
     return data.jdList;
 });
 
-
 export const jobsSlice = createSlice({
     name: 'jobs',
     initialState: { jobs: [], loading: false },
-    reducers: {},
+    reducers: {
+        clearJobs: (state) => {
+            state.jobs = [];
+        },
+    },
     extraReducers: (builder) => {
         // When Jobs are loading
         builder.addCase(fetchJobs.pending, (state) => {
@@ -34,4 +36,5 @@ export const jobsSlice = createSlice({
     },
 });
 
+export const { clearJobs } = jobsSlice.actions;
 export default jobsSlice.reducer;
