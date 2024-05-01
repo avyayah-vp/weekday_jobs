@@ -4,6 +4,7 @@ import JobCard from "../components/JobCard";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchJobs } from "../redux/jobsSlice";
 import Skeleton from "../components/Skeleton";
+import FilterJobs from "../components/FilterJobs";
 import "./SearchJobs.css";
 
 function SearchJobs() {
@@ -34,6 +35,10 @@ function SearchJobs() {
   }, [jobs]);
 
   return (
+    <>
+    <FilterJobs onFilterChange={(filters) => {
+   // Dispatch action to fetch jobs based on filters
+}} />
     <div className="jobsContainer">
       {jobs.map((job, index) => (
         <JobCard className="jobCard" key={job.jdUid} job={job} />
@@ -43,6 +48,7 @@ function SearchJobs() {
     ))}
       <div ref={lastJobElementRef} style={{ height: "20px" }} />
     </div>
+    </>
   );
 }
 
